@@ -4,6 +4,9 @@
 #include <string>
 #include <sstream>
 #include <windows.h>
+#include <boost/graph/graph_traits.hpp>
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/graph/dijkstra_shortest_paths.hpp>
 
 #define NUM_NODOS 5
 
@@ -18,18 +21,9 @@ int main() {
 
     int matriz[NUM_NODOS][NUM_NODOS];
 
-    int index1, index2; 
+    int index1, index2;
 
-    if(file.is_open()){
-        while (getline(file, line))
-        {
-            line.substr(index1, index2);
-
-        }
-        file.close();
-    }else{
-        cout << "Error opening the file." << endl;
-    }
+    cout << "ALO";
     
     return 0;
 }
