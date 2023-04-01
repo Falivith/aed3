@@ -7,7 +7,7 @@
 #include <climits>
 #include <windows.h>
 
-#define n_nodos 11
+#define n_nodos 15
 using namespace std;
 
 class bruteforce {
@@ -89,24 +89,29 @@ public:
 int main() {
 
   SetConsoleOutputCP(65001);
-
-  cout << "Matriz de Adjacência" << endl << "--------------------" << endl;
-
-  ifstream inputFile("tsp1_253.txt");
-
+  ifstream inputFile("tsp3_1194.txt");
   int matriz_adj[n_nodos][n_nodos];
+
+  //cout << "Matriz de Adjacência" << endl << "--------------------" << endl;
 
   for (int i = 0; i < n_nodos; i++) {
     for (int j = 0; j < n_nodos; j++) {
       inputFile >> matriz_adj[i][j];
-      cout << matriz_adj[i][j] << " ";
+    //  cout << matriz_adj[i][j] << " ";
     }
-    cout << endl;
+    //cout << endl;
   }
 
-  cout << "--------------------" << endl;
+  //cout << "--------------------" << endl;
 
   cout << endl << endl;
   bruteforce instancia;
+
+  DWORD start = GetTickCount();
   cout << instancia.menor_caminho_soma(matriz_adj, n_nodos) << endl;
+  DWORD end = GetTickCount();
+
+  cout << "Tempo de execução: " << end - start << " ms" << std::endl;
+  
+  return 0;
 }
