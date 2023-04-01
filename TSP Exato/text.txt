@@ -1,1 +1,8 @@
 g++ tsp_exact.cpp -o tsp_exact.exe -I'C:\Program Files\Boost\boost_1_81_0'
+
+5
+11
+6
+15
+44
+29

@@ -1,38 +1,88 @@
-#include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <limits.h>
+#include <string>
+#include <queue>
 #include <vector>
+#include <algorithm>
+#include <climits>
 #include <windows.h>
 
-#define n_nodos 15
+#define n_nodos 11
 using namespace std;
 
-class brute_force {
+class bruteforce {
+
 public:
-  int shortest_path_sum(int edges_list[n_nodos][n_nodos], int num_nodes) {
-    int source = 0;
-    vector<int> nodes;
-    for (int i = 0; i < num_nodes; i++) {
-      if (i != source) {
-        nodes.push_back(i);
+
+  string menor_caminho_soma(int matriz_adj[n_nodos][n_nodos], int num_nodos) {
+
+    vector<int> nodos;
+    vector<int> percorridos;
+
+    int inicio = 0;
+
+    // Armazena no ArrayList todos nodos exceto o inicial (por padrão 0, ou nodo 1)
+
+    for (int i = 0; i < num_nodos; i++) {
+      if (i != inicio) {
+        nodos.push_back(i);
       }
     }
-    int n = nodes.size();
-    int shortest_path = INT_MAX;
-    while (next_permutation(nodes.begin(), nodes.end())) {
-      int path_weight = 0;
 
-      int j = source;
+    int n = nodos.size();
+    int menor_caminho = INT_MAX;
+
+    // Todas as permutações desse vetor vão ser testadas a partir do nodo início (tanto faz o nodo início)
+
+
+    do {
+      //for (int i = 0; i < nodos.size(); i++) { cout << nodos[i] << " "; } cout << endl;
+
+      int soma_peso = 0;
+      int nodo_atual = inicio;
+
+      /* Cálculo do peso do caminho:
+       * São somados os pesos das arestas
+       * referentes a permutação atual do
+       * grafo. Se numa matriz [5][5] temos 
+       * a permutação 1 3 2 4, saímos do 0
+       * e somamos o peso de 0 com 1, 1 com 3,
+       * 3 com 2 e 2 com 4. Assim temos o
+       * resultado da permutação. */
+
       for (int i = 0; i < n; i++) {
-        path_weight += edges_list[j][nodes[i]];
-        j = nodes[i];
+        soma_peso += matriz_adj[nodo_atual][nodos[i]];
+        nodo_atual = nodos[i];
       }
-      path_weight += edges_list[j][source];
 
-      shortest_path = min(shortest_path, path_weight);
+      // Por fim, soma-se o peso do último nodo da permutação até o nodo inicial, fechando o ciclo hamiltoniano.
+      soma_peso += matriz_adj[nodo_atual][inicio];
+
+      if(soma_peso < menor_caminho){
+        percorridos = nodos;
+        menor_caminho = soma_peso;
+      }
+        
+
+    } while (next_permutation(nodos.begin(), nodos.end()));
+
+    string resposta = to_string(menor_caminho);
+    string solucao = "[";
+
+    percorridos.push_back(inicio);
+    percorridos.insert(percorridos.begin(), inicio);
+
+    for (int i = 0; i < percorridos.size(); i++) {
+      percorridos[i]++;
+      solucao += to_string(percorridos[i]) + " ";
     }
-    return shortest_path;
+    
+    solucao.pop_back();
+    solucao += "]";
+
+    resposta = "Os nodos percorridos foram: " + solucao + ", e o peso total do caminho é: " + resposta; 
+
+    return resposta;
   }
 };
 
@@ -42,14 +92,14 @@ int main() {
 
   cout << "Matriz de Adjacência" << endl << "--------------------" << endl;
 
-  ifstream inputFile("tsp3_1194.txt");
+  ifstream inputFile("tsp1_253.txt");
 
-  int adj_matrix[n_nodos][n_nodos];
+  int matriz_adj[n_nodos][n_nodos];
 
   for (int i = 0; i < n_nodos; i++) {
     for (int j = 0; j < n_nodos; j++) {
-      inputFile >> adj_matrix[i][j];
-      cout << adj_matrix[i][j] << " ";
+      inputFile >> matriz_adj[i][j];
+      cout << matriz_adj[i][j] << " ";
     }
     cout << endl;
   }
@@ -57,6 +107,6 @@ int main() {
   cout << "--------------------" << endl;
 
   cout << endl << endl;
-  brute_force approach1;
-  cout << approach1.shortest_path_sum(adj_matrix, n_nodos) << endl;
+  bruteforce instancia;
+  cout << instancia.menor_caminho_soma(matriz_adj, n_nodos) << endl;
 }
