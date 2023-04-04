@@ -16,7 +16,7 @@
  *  TSP 5: 29
  */
 
-#define n_nodos 29
+#define n_nodos 44
 using namespace std;
 
 class aproximativos {
@@ -63,15 +63,18 @@ public:
       peso_total += matriz_adj[nodo_atual][menor_vizinho];
     }
     
+    twoOpt(percorridos, matriz_adj);
+    peso_total = cost(percorridos, matriz_adj);
+    
     // Por fim, soma-se o peso do último nodo da permutação até o nodo inicial, fechando o ciclo hamiltoniano.
     peso_total += matriz_adj[percorridos.back()][inicio];
-
+    percorridos.push_back(inicio);
 
     // Abaixo é só feita a formatação da String de resposta.
-    
+
     string resposta = to_string(peso_total);
     string solucao = "[";
-    percorridos.push_back(inicio);
+    
 
     for (int i = 0; i < percorridos.size(); i++) {
       percorridos[i]++;
@@ -86,14 +89,43 @@ public:
     return resposta;
   }
 
-  string outracoisa(int matriz_adj[n_nodos][n_nodos], int num_nodos) {
+  // Função auxiliar pra calcular o custo de uma rota dentro da matriz de adjacência
+
+  int cost(vector<int> &route, int matriz_adj[][n_nodos]) {
+    int c = matriz_adj[route[n_nodos-1]][route[0]];
+    for (int i = 0; i < n_nodos - 1; i++) {
+        c += matriz_adj[route[i]][route[i + 1]];
+    }
+    return c;
+  }
+
+  // Função para aplicar o algoritmo 2-OPT em uma rota
+  void twoOpt(vector<int> &route, int matriz_adj[][n_nodos]) {
+      int n = route.size();
+      bool improved = true;
+      while (improved) {
+          improved = false;
+          for (int i = 0; i < n - 1; i++) {
+              for (int j = i + 1; j < n; j++) {
+                  int a = route[i];
+                  int b = route[(i + 1) % n];
+                  int c = route[j];
+                  int d = route[(j + 1) % n];
+                  int delta = matriz_adj[a][c] + matriz_adj[b][d] - matriz_adj[a][b] - matriz_adj[c][d];
+                  if (delta < 0) {
+                      reverse(route.begin() + i + 1, route.begin() + j + 1);
+                      improved = true;
+                  }
+              }
+          }
+      }
   }
 };
 
 int main() {
 
   SetConsoleOutputCP(65001);
-  ifstream inputFile("tsp5_27603.txt");
+  ifstream inputFile("tsp4_7013.txt");
   int matriz_adj[n_nodos][n_nodos];
 
   for (int i = 0; i < n_nodos; i++) {
