@@ -7,7 +7,16 @@
 #include <climits>
 #include <windows.h>
 
-#define n_nodos 5
+/* Contagem de Nodos
+ *  TSP 0: 5
+ *  TSP 1: 11
+ *  TSP 2: 6
+ *  TSP 3: 15
+ *  TSP 4: 44
+ *  TSP 5: 29
+ */
+
+#define n_nodos 11
 using namespace std;
 
 class bruteforce {
@@ -89,20 +98,14 @@ public:
 int main() {
 
   SetConsoleOutputCP(65001);
-  ifstream inputFile("tsp0_x.txt");
+  ifstream inputFile("tsp6_x.txt");
   int matriz_adj[n_nodos][n_nodos];
-
-  //cout << "Matriz de Adjacência" << endl << "--------------------" << endl;
 
   for (int i = 0; i < n_nodos; i++) {
     for (int j = 0; j < n_nodos; j++) {
       inputFile >> matriz_adj[i][j];
-    //  cout << matriz_adj[i][j] << " ";
     }
-    //cout << endl;
   }
-
-  //cout << "--------------------" << endl;
 
   cout << endl << endl;
   bruteforce instancia;
