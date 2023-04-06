@@ -149,15 +149,12 @@ public:
     percorridos.push_back(inicio);
     peso_total += matriz_adj[percorridos.back()][inicio];
 
-    cout << peso_total << endl;
-
     // Aplica a heurística de 2-opt, se necessário.
     if (tOpt) {
         twoOpt(percorridos, matriz_adj);
         peso_total = custo(percorridos, matriz_adj);
     }
 
-    cout << peso_total << endl; 
     // Retorna a solução como uma string formatada.
 
     resposta r;
