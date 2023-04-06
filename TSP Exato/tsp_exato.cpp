@@ -110,9 +110,9 @@ int main() {
   cout << endl << endl;
   bruteforce instancia;
 
-  DWORD start = GetTickCount();
+  DWORD start = clock();
   cout << instancia.menor_caminho_soma(matriz_adj, n_nodos) << endl;
-  DWORD end = GetTickCount();
+  DWORD end = clock();
 
   cout << "Tempo de execução: " << end - start << " ms" << std::endl;
   
