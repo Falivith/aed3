@@ -7,6 +7,7 @@
 #include <climits>
 #include <windows.h>
 #include <time.h>
+#include <limits>
 
 /* Contagem de Nodos
  *  TSP 0: 5
@@ -17,7 +18,7 @@
  *  TSP 5: 29
  */
 
-#define n_nodos 29
+#define n_nodos 44
 using namespace std;
 
 struct resposta
@@ -166,10 +167,10 @@ public:
 
     return resposta_format(r);
 }
-  // Função auxiliar pra calcular o custo de uma rota dentro da matriz de adjacência
 
 private:
 
+  // Função auxiliar pra calcular o custo de uma rota dentro da matriz de adjacência
   int custo(vector<int> &route, int matriz_adj[][n_nodos]) {
     int c = matriz_adj[route[n_nodos-1]][route[0]];
     for (int i = 0; i < n_nodos - 1; i++) {
@@ -219,7 +220,7 @@ private:
 int main() {
 
   SetConsoleOutputCP(65001);
-  ifstream inputFile("tsp5_27603.txt");
+  ifstream inputFile("tsp4_7013.txt");
   
   int matriz_adj[n_nodos][n_nodos];
 
